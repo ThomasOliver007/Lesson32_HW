@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streetlights</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      #streetlights {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .light {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 0 10px;
+        background-color: #ccc;
+        transition: background-color 0.3s ease;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="streetlights">
+      <div class="light" id="red"></div>
+      <div class="light" id="yellow"></div>
+      <div class="light" id="green"></div>
+    </div>
+
+    <button onclick="changeColor()">Switch Light</button>
+
+    <script>
+      // JavaScript function to switch streetlight colors
+      function changeColor() {
+        const lights = document.querySelectorAll(".light");
+        const currentColor = lights[0].style.backgroundColor;
+
+        // Find the index of the lit light
+        const currentIndex = Array.from(lights).findIndex(
+          (light) => light.style.backgroundColor === currentColor
+        );
+
+        // Turn off all lights
+        lights.forEach((light) => (light.style.backgroundColor = "#ccc"));
+
+        // Turn on the next light (cycling back to red if last light is on)
+        const nextIndex = (currentIndex + 1) % lights.length;
+        lights[nextIndex].style.backgroundColor = getColor(nextIndex);
+      }
+
+      // Function to get the color based on the light's index
+      function getColor(index) {
+        switch (index) {
+          case 0:
+            return "red";
+          case 1:
+            return "yellow";
+          case 2:
+            return "green";
+          default:
+            return "#ccc";
+        }
+      }
+    </script>
+  </body>
+</html>

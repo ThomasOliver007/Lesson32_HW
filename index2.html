@@ -1,0 +1,243 @@
+<!-- 1. Create a page that displays a numbered list of tracks:
+
+var playList = [
+{
+ author: "LED ZEPPELIN",
+ song:"STAIRWAY TO HEAVEN"
+},
+{
+ author: "QUEEN",
+ song:"BOHEMIAN RHAPSODY"
+},
+{
+ author: "LYNYRD SKYNYRD",
+ song:"FREE BIRD"
+},
+{
+ author: "DEEP PURPLE",
+ song:"SMOKE ON THE WATER"
+},
+{
+ author: "JIMI HENDRIX",
+ song:"ALL ALONG THE WATCHTOWER"
+},
+{
+ author: "AC/DC",
+ song:"BACK IN BLACK"
+},
+{
+ author: "QUEEN",
+ song:"WE WILL ROCK YOU"
+},
+{
+ author: "METALLICA",
+ song:"ENTER SANDMAN"
+}
+]; -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playlist</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      ol {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Playlist</h1>
+
+    <ol>
+      ${playList.map((track, index) => `
+      <li><strong>${index + 1}</strong>. ${track.song} - ${track.author}</li>
+      `).join('')}
+    </ol>
+  </body>
+</html>
+
+<!-- 2. Create an html page with OPEN button and a modal box. The modal box should have text and a CLOSE button. The modal box is not displayed from the beginning. It appears when clicking the OPEN button and disappears when clicking CLOSE. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    /* .class */
+    #modal {
+      padding: 15px;
+      display: none;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      z-index: 1;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px #ccc;
+      max-width: 300px;
+      font-size: 12px;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+    #overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: none;
+      z-index: 0;
+    }
+  </style>
+  <body>
+    <button id="openBtn">OPEN</button>
+
+    <div id="modal">
+      <h2>Modal heading</h2>
+      <p>
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged. It was popularised in the 1960s with the release
+        of Letraset sheets containing Lorem Ipsum passages, and more recently
+        with desktop publishing software like Aldus PageMaker including versions
+        of Lorem Ipsum.
+      </p>
+      <button id="closeBtn">CLOSE</button>
+    </div>
+
+    <div id="overlay"></div>
+
+    <script>
+      const openBtn = document.getElementById("openBtn");
+      const closeBtn = document.getElementById("closeBtn");
+      const modal = document.getElementById("modal");
+      const overlay = document.getElementById("overlay");
+
+      openBtn.addEventListener("click", function (event) {
+        modal.style.display = "block";
+        overlay.style.display = "block";
+        openBtn.disabled = true;
+      });
+
+      function closeBtnFn(event) {
+        modal.style.display = "none";
+        overlay.style.display = "none";
+        openBtn.disabled = false;
+      }
+
+      closeBtn.addEventListener("click", closeBtnFn);
+
+      overlay.addEventListener("click", closeBtnFn);
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          closeBtnFn();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- 3. Create an html page with streetlights and a button that switches the color to the next one. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streetlights</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      #streetlights {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .light {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 0 10px;
+        background-color: #ccc;
+        transition: background-color 0.3s ease;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="streetlights">
+      <div class="light" id="red"></div>
+      <div class="light" id="yellow"></div>
+      <div class="light" id="green"></div>
+    </div>
+
+    <button onclick="changeColor()">Switch Light</button>
+
+    <script>
+      function changeColor() {
+        const lights = document.querySelectorAll(".light");
+        const currentColor = lights[0].style.backgroundColor;
+
+        const currentIndex = Array.from(lights).findIndex(
+          (light) => light.style.backgroundColor === currentColor
+        );
+
+        lights.forEach((light) => (light.style.backgroundColor = "#ccc"));
+
+        const nextIndex = (currentIndex + 1) % lights.length;
+        lights[nextIndex].style.backgroundColor = getColor(nextIndex);
+      }
+
+      function getColor(index) {
+        switch (index) {
+          case 0:
+            return "red";
+          case 1:
+            return "yellow";
+          case 2:
+            return "green";
+          default:
+            return "#ccc";
+        }
+      }
+    </script>
+  </body>
+</html>
